@@ -76,7 +76,7 @@ Twilio text sent! SID: SMxxxxxxxxxxxx
 - The script runs every 10 minutes in a loop until the course becomes available
 
   ---
-  ## How you can customize it
+## How you can customize it
 - Update your Course Code
 - Change what the notifications say
 - Add a testing feature to test if it works
