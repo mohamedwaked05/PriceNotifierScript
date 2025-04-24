@@ -30,7 +30,7 @@ def send_text_notification():
 
     # Creates and sends message
     message = client.messages.create(
-        body="COMP-2045 is now available! Go register before it's full!",
+        body="Your course is now available! Go register before it's full!",
         messaging_service_sid=messaging_service_sid,
         to=my_number
     )
@@ -57,11 +57,11 @@ def check_course():
 
         # Check if the course code is within the HTML text AND does not include the word "full" within 200 characters after
         if COURSE_CODE in page_text and "Full" not in page_text.split(COURSE_CODE)[1][:200]:
-            print("COMP-2045 might be available! Sending notification...")
+            print("Your course might be available! Sending notification...")
             
             # Show a desktop notification
             notification.notify(
-                title="COMP-2045 is available!",
+                title="Your course is available!",
                 message="Go sign up before it fills up again!",
                 timeout=10
             )
