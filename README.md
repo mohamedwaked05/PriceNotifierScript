@@ -65,7 +65,8 @@ Still full... checking again soon.
 COMMST3029 might be available! Sending notification...
 Twilio text sent! SID: SMxxxxxxxxxxxx
 ```
---- 
+---
+
 ## How It Works
 
 - The script sends a request to the course registration page using requests
@@ -75,7 +76,8 @@ Twilio text sent! SID: SMxxxxxxxxxxxx
   - It sends an SMS alert using Twilio
 - The script runs every 10 minutes in a loop until the course becomes available
 
-  ---
+---
+
 ## How you can customize it
 - Update your Course Code
 - Change what the notifications say
