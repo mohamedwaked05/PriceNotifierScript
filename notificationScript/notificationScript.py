@@ -1,87 +1,87 @@
-# Imports
-# Loading environment  variables from .env 
 from dotenv import load_dotenv
-# Accesses system environment variables
 import os
-# Time
 import time
-# HTTP Requests
 import requests
-# Parses HTML content
 from bs4 import BeautifulSoup
-# Adds desktop notification
 from plyer import notification
-# Sends SMS via Twilio account
-from twilio.rest import Client
+import smtplib
+from email.message import EmailMessage
 
-# Loading environment variables from .env file
+# Load environment variables from .env file
 load_dotenv()
 
-# Get the variables from the .env for messaging
-account_sid = os.getenv("TWILIO_ACCOUNT_SID")
-auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-messaging_service_sid = os.getenv("MESSAGING_SERVICE_SID")
-my_number = os.getenv("MY_NUMBER")
+PRODUCT_URL = os.getenv("PRODUCT_URL")
+TARGET_PRICE = float(os.getenv("TARGET_PRICE"))
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+TO_EMAIL = os.getenv("TO_EMAIL")
 
-# Function to send a text message using Twilio
-def send_text_notification():
-    # Twilio client with .env credentials
-    client = Client(account_sid, auth_token)
+HEADERS = {
+    "User-Agent": "Mozilla/5.0",
+    "Accept-Language": "en-US,en;q=0.9"
+}
 
-    # Creates and sends message
-    message = client.messages.create(
-        body="Your course is now available! Go register before it's full!",
-        messaging_service_sid=messaging_service_sid,
-        to=my_number
-    )
-    
-    # Print confirmation in terminal with message SID
-    print("Twilio text sent! SID:", message.sid)
+def send_email(subject, body):
+    msg = EmailMessage()
+    msg.set_content(body)
+    msg['Subject'] = subject
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = TO_EMAIL
 
-# Get Course info and webpage URL from .env
-URL = os.getenv("COURSE_URL")
-COURSE_CODE = os.getenv("COURSE_CODE")
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
 
-# Adding headers to mimic a real browser (to avoid getting blocked)
-HEADERS = {"User-Agent": "Mozilla/5.0"}
-
-# Function to check if course is available
-def check_course():
+def check_price():
     try:
-        # Send a GET request to the courses page
-        response = requests.get(URL, headers=HEADERS)
-        # Parse the HTML using BeautifulSoup
-        soup = BeautifulSoup(response.text, 'html.parser')
-        # Extract all text only content from HTML
-        page_text = soup.get_text()
+        response = requests.get(PRODUCT_URL, headers=HEADERS)
+        soup = BeautifulSoup(response.text, "html.parser")
 
-        # Check if the course code is within the HTML text AND does not include the word "full" within 200 characters after
-        if COURSE_CODE in page_text and "Full" not in page_text.split(COURSE_CODE)[1][:200]:
-            print("Your course might be available! Sending notification...")
-            
-            # Show a desktop notification
+        # Try multiple ways to find the price
+        price_tag = (
+            soup.find(id="priceblock_ourprice") or
+            soup.find(id="priceblock_dealprice") or
+            soup.find(id="price_inside_buybox") or
+            soup.find("span", {"class": "a-price-whole"})
+        )
+
+        if not price_tag:
+            print("Price not found on page.")
+            return False
+
+        price_str = price_tag.get_text().strip()
+        price_clean = ''.join(c for c in price_str if c.isdigit() or c == '.')
+        price = float(price_clean)
+
+        print(f"Current price: ${price:.2f}")
+
+        if price <= TARGET_PRICE:
+            print("Price is below target! Sending notification...")
+
+            # Show desktop notification
             notification.notify(
-                title="Your course is available!",
-                message="Go sign up before it fills up again!",
+                title="Amazon Price Alert!",
+                message=f"Price dropped to ${price:.2f}!",
                 timeout=10
             )
 
-            # Call the send text function to send a text message via Twilio
-            send_text_notification()
+            # Send email
+            send_email(
+                "Amazon Price Alert!",
+                f"The price dropped to ${price:.2f}!\nCheck it here: {PRODUCT_URL}"
+            )
 
-            # Stop the loop
             return True
         else:
-            # If its still full try the loop again - Show in terminal
-            print("Still full... checking again soon.")
+            print("Price is still too high.")
             return False
-    # Handle errors    
+
     except Exception as e:
-        print("Error during check:", e)
+        print("Error checking price:", e)
         return False
 
-# Infinite loop to check every 10 minutes until course opens
-while True:
-    if check_course():
-        break
-    time.sleep(600)
+if __name__ == "__main__":
+    while True:
+        if check_price():
+            break
+        time.sleep(600)  # 10 minutes
