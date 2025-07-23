@@ -21,5 +21,5 @@ A simple Python script that monitors the price of an Amazon product and sends yo
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/amazon-price-notifier.git
-cd amazon-price-notifier
+git clone https://github.com/mohamedwaked05/PriceNotifierScript.git
+cd PriceNotifierScript
