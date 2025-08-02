@@ -25,6 +25,8 @@ A Python-based price tracking and notification tool that monitors product prices
 
 ### Installation
 
+### Installation
+
 1. Clone the repository:
 ```bash
 git clone https://github.com/mohamedwaked05/PriceNotifierScript.git
