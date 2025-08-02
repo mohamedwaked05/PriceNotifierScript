@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
- return render_template_string("""
+    return render_template_string("""
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -52,5 +52,6 @@ def run_script():
     </html>
     """)
 
+# Note: Removed debug=True for production
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)  # Run Flask app on port 8000
+    app.run(host="0.0.0.0", port=8000)
