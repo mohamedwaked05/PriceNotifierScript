@@ -1,11 +1,11 @@
 from dotenv import load_dotenv
 import os
-import time
 import requests
 from bs4 import BeautifulSoup
-from plyer import notification
 import smtplib
 from email.message import EmailMessage
+# Comment out plyer for Render compatibility (remove if running locally)
+# from plyer import notification
 
 # Load environment variables from .env file
 load_dotenv()
@@ -58,14 +58,13 @@ def check_price():
         if price <= TARGET_PRICE:
             print("Price is below target! Sending notification...")
 
-            # Show desktop notification
-            notification.notify(
-                title="Amazon Price Alert!",
-                message=f"Price dropped to ${price:.2f}!",
-                timeout=10
-            )
+            # Desktop notification (commented out for Render)
+            # notification.notify(
+            #     title="Amazon Price Alert!",
+            #     message=f"Price dropped to ${price:.2f}!",
+            #     timeout=10
+            # )
 
-            # Send email
             send_email(
                 "Amazon Price Alert!",
                 f"The price dropped to ${price:.2f}!\nCheck it here: {PRODUCT_URL}"
@@ -80,8 +79,8 @@ def check_price():
         print("Error checking price:", e)
         return False
 
-if __name__ == "__main__":
-    while True:
-        if check_price():
-            break
-        time.sleep(600)  # 10 minutes
+def main():
+    if check_price():
+        return "Price is below target! Notification sent."
+    else:
+        return "Price is still too high."

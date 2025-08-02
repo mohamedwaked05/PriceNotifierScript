@@ -1,25 +1,69 @@
-# Amazon Price Notifier
+Amazon Price Notifier
+A simple Python app that checks the price of an Amazon product and sends you an email notification when the price drops below your target.
 
-A simple Python script that monitors the price of an Amazon product and sends you an email alert when the price drops below your target.
+Features
+Checks Amazon product price using web scraping
 
-## Features
+Sends email alerts via Gmail SMTP when price drops below target
 
-- Checks the price of any Amazon product by scraping its webpage.
-- Sends email notifications when the price is below your specified target.
-- Runs periodically (every 10 minutes by default).
-- Easy to configure with environment variables.
-- Can be deployed on free hosting services like Replit for 24/7 monitoring.
+Simple Flask web interface to manually trigger price checks
 
-## Requirements
+Easily configurable via environment variables
 
-- Python 3.7 or higher
-- Packages: `requests`, `beautifulsoup4`, `python-dotenv`, `plyer` (optional for desktop notifications)
-- A Gmail account with an [App Password](https://support.google.com/accounts/answer/185833) for sending emails securely
+Setup
+1. Clone the repo
+bash
+Copy
+Edit
+git clone https://github.com/mohamedwaked05/PriceNotifierScript.git
+cd PriceNotifierScript/notificationScript
+2. Create a .env file
+Create a .env file in the notificationScript folder with the following variables:
 
-## Setup Instructions
+env
+Copy
+Edit
+PRODUCT_URL=https://www.amazon.com/your-product-url
+TARGET_PRICE=100.00
+EMAIL_ADDRESS=your-email@gmail.com
+EMAIL_PASSWORD=your-app-password
+TO_EMAIL=recipient-email@gmail.com
+Replace PRODUCT_URL with the full Amazon product URL.
 
-1. **Clone the repository**
+Set TARGET_PRICE to your desired price threshold.
 
-```bash
-git clone https://github.com/yourusername/amazon-price-notifier.git
-cd amazon-price-notifier
+Use your Gmail email and an App Password for EMAIL_PASSWORD.
+
+TO_EMAIL is the recipient email for notifications.
+
+3. Install dependencies
+Use pip to install required libraries:
+
+bash
+Copy
+Edit
+pip install -r requirements.txt
+4. Run the Flask app
+Start the web app:
+
+bash
+Copy
+Edit
+python app.py
+Open http://localhost:8000 in your browser and click the "Run Price Check" button.
+
+How it works
+The script scrapes the Amazon product page to find the current price.
+
+If the price is at or below the target, it sends you an email notification.
+
+The Flask web app lets you trigger the price check manually and view the result.
+
+Notes
+You must enable 2-Step Verification on your Gmail account and generate an App Password to use Gmail SMTP.
+
+The app uses web scraping, so if Amazon changes their page structure, price detection might break and require updates.
+
+License
+MIT License © Mohamed Waked
+
