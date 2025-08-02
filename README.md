@@ -1,80 +1,72 @@
-Price Notifier Script
+# Price Notifier Script 💰📉
+
+![Python](https://img.shields.io/badge/python-3.13+-blue?logo=python)
+![Flask](https://img.shields.io/badge/flask-2.0+-lightgrey?logo=flask)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 A Python-based price tracking and notification tool that monitors product prices and alerts you when they drop below your target.
 
-Features
-Track prices of products from Amazon (and potentially other sites)
+![Demo](https://img.shields.io/badge/demo-live-success) → [https://pricenotifierscript.onrender.com](https://pricenotifierscript.onrender.com)
 
-Send notifications when price drops below a set target
+## Features ✨
 
-Flask-based web interface with /run endpoint to trigger checks
+- 📊 Track prices of products from Amazon (and potentially other sites)
+- 🔔 Send notifications when price drops below a set target
+- 🌐 Flask-based web interface with `/run` endpoint to trigger checks
+- ⚙️ Easy environment variable configuration with `.env`
+- 🚀 Simple deployment ready (tested on Render.com)
 
-Easy environment variable configuration with .env
+## Getting Started 🚀
 
-Simple deployment ready (tested on Render.com)
+### Prerequisites
 
-Demo
-The app is live at: https://pricenotifierscript.onrender.com
+- Python 3.13+
+- pip package manager
 
-Getting Started
-Prerequisites
-Python 3.13+
+### Installation
 
-pip package manager
-
-Installation
-Clone the repository:
-
-bash
-Copy
-Edit
+1. Clone the repository:
+```bash
 git clone https://github.com/mohamedwaked05/PriceNotifierScript.git
 cd PriceNotifierScript
 Create and activate a virtual environment (recommended):
 
 bash
-Copy
-Edit
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
+venv\Scripts\activate    # Windows
 Install dependencies:
 
 bash
-Copy
-Edit
 pip install -r requirements.txt
-Create a .env file in the root folder and add your configuration variables:
+Create a .env file in the root folder and add your configuration:
 
 env
-Copy
-Edit
 TARGET_PRICE=100.0
 PRODUCT_URL=https://www.amazon.com/your-product-url
 EMAIL_ADDRESS=your-email@example.com
 EMAIL_PASSWORD=your-app-password
 RECEIVER_EMAIL=receiver-email@example.com
-Usage
+Usage 🖥️
 Run the Flask app:
 
 bash
-Copy
-Edit
 python app.py
 Visit http://localhost:8000/run to trigger a price check and notification.
 
-Deployment
+Deployment ☁️
 This app is ready to be deployed on platforms like Render.com.
 
-Make sure to:
+Remember to:
 
 Set your environment variables in your deployment platform
 
-Use the correct start command: python app.py
+Use the start command: python app.py
 
 Bind to the port your hosting service expects
 
-Contributing
+Contributing 🤝
 Feel free to submit issues or pull requests!
 
-License
+License 📄
 MIT License © Mohamed Waked
