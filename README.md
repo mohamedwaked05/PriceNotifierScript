@@ -24,7 +24,7 @@ A Python-based price tracking and notification tool that monitors product prices
 - pip package manager
 
 ### Installation
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 1. Clone the repository:
 bash
 git clone https://github.com/mohamedwaked05/PriceNotifierScript.git 
@@ -70,5 +70,6 @@ Feel free to submit issues or pull requests!
 
 License 📄
 MIT License © Mohamed Waked
+
 
 
